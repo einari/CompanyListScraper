@@ -20,7 +20,7 @@ $ node .
 ```
 
 Wait till its finished logging and you should get a `result.json` file in the same folder.
-This can then be opened using a [JSON to CSV converter](http://json-csv.com) and imported into something like Excel.
+This can then be opened using a [JSON to CSV converter](http://convertcsv.com/json-to-csv.htm) and imported into something like Excel.
 
 ### Purehelp.se - change vertical
 
