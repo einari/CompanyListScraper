@@ -39,7 +39,8 @@ let getCompaniesFrom = (code, page, letter) => {
 
     let promise = new Promise(resolve => {
         let companies = [];
-        let url = `${baseUrl}/lists/company/${letter}/Alla/${code}/Alla/${page}`;
+
+        let url = `${baseUrl}/lists/company/${encodeURIComponent(letter)}/Alla/${code}/Alla/${page}`;
 
         console.log(`Requesting : ${url}`)
         request(url, (error, response, html) => {
@@ -71,13 +72,13 @@ let getCompaniesFrom = (code, page, letter) => {
                 compayRoutes[anchorTags[companyIndex].attribs.href] = anchorTags[companyIndex].attribs.href;
             }
 
-            
+
 
             let companyCount = 0;
             for (let companyRoute in compayRoutes) {
                 companyCount++;
             }
-            if( companyCount == 0 ) resolve(companies, false);
+            if (companyCount == 0) resolve(companies, false);
             console.log(`Walk through and retrieve ${companyCount} companies`);
 
             for (let companyRoute in compayRoutes) {
@@ -130,18 +131,20 @@ let getAllCompanies = (code) => {
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
 
         let recurse = (letterIndex) => {
-            let letter = letters[letterIndex++];
-            getCompaniesFromAllPages(code, letter).then(companies => {
+            if (letterIndex >= letters.length) {
+                console.log("All companies retrieved")
+                resolve(allCompanies);
+            } else {
 
-                letterIndex++;
-                if (letterIndex >= letters.length) {
-                    coneols.log("All companies retrieved")
-                    resolve(allCompanies);
-                } else {
+                let letter = letters[letterIndex++];
+                getCompaniesFromAllPages(code, letter).then(companies => {
+                    allCompanies = allCompanies.concat(companies);
+                    letterIndex++;
                     console.log("Next letter");
+
                     recurse(letterIndex);
-                }
-            });
+                });
+            }
         };
 
         recurse(0);
