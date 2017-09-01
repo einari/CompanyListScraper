@@ -129,7 +129,7 @@ let getAllCompanies = (code) => {
         let allCompanies = [];
 
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
-
+        
         let recurse = (letterIndex) => {
             if (letterIndex >= letters.length) {
                 console.log("All companies retrieved")
